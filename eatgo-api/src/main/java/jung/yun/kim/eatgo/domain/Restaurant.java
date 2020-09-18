@@ -7,14 +7,17 @@ public class Restaurant {
 
     //필드
     private Long id;
-    private final String name;
-    private final String address;
+    private String name;
+    private String address;
 
     public List<MenuItem> getMenuItems() {
         return menuItems;
     }
 
     //생성자
+    public Restaurant() {
+    }
+
     public Restaurant(Long id, String name, String address) {
         this.id = id;
         this.name = name;

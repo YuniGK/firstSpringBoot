@@ -4,28 +4,56 @@ import jung.yun.kim.eatgo.domain.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.BDDMockito.given;
 
 class RespositoryServiceTest {
 
     private RestaurantService restaurantService;
 
+    @Mock
     private RestaurantRespository restaurantRepository;
 
+    @Mock
     private MenuItemRespository menuItemRespository;
+
+    private void mockRestaurantRespository() {
+        List<Restaurant> restaurants = new ArrayList<>();
+
+        Restaurant restaurant = new Restaurant(1005L, "Bob zip", "Seoul");
+
+        restaurants.add(new Restaurant(1005L, "Bob zip", "Seoul"));
+
+        given(restaurantRepository.findAll()).willReturn(restaurants);
+        given(restaurantRepository.findById(1005L)).willReturn(restaurant);
+    }
+
+    private void mockMenuItemRespository() {
+        List<MenuItem> menuItems = new ArrayList<>();
+
+        menuItems.add(new MenuItem("Kimchi"));
+
+        given(menuItemRespository.findAllByRestaurantId(1005L)).willReturn(menuItems);
+    }
 
     /* 테스트에서는 자동으로 의존성 주입이 되지 않아 의존성을 알려주어야 한다.
     *
     * @BeforeEach 모든 테스트가 실행되기 전에 한번씩 실행된다. */
+
     @BeforeEach
     public void setUp(){
-        restaurantRepository = new RestaurantRespositoryaImpl();
+        /* @Mock 붙은 객체로 초기화 해준다. */
+        MockitoAnnotations.initMocks(this);
 
-        menuItemRespository = new MenuItemRespositoryImpl();
+        mockRestaurantRespository();
+        mockMenuItemRespository();
 
         restaurantService = new RestaurantService(restaurantRepository, menuItemRespository);
     }

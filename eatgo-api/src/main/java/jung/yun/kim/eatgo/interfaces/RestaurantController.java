@@ -3,12 +3,14 @@ package jung.yun.kim.eatgo.interfaces;
 import jung.yun.kim.eatgo.application.RestaurantService;
 import jung.yun.kim.eatgo.domain.Restaurant;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
+@CrossOrigin
 /* @RestController - @ResponseBody와 같이 Json 형태로 객체 데이터를 반환 */
 @RestController
 public class RestaurantController {
@@ -40,6 +42,23 @@ public class RestaurantController {
         */
 
         return restaurant;
+    }
+
+    @PostMapping("/restaurants")
+    /* @ResponseBody 어노테이션과 같은 의미
+       ResponseEntity를 return Type으로 지정하면 JSON (default) 또는 Xml Format으로 결과를 반환한다. */
+    public ResponseEntity<?> create(@RequestBody Restaurant resource) throws URISyntaxException {
+
+        String name = resource.getName();
+        String address = resource.getAddress();
+
+        Restaurant restaurant = new Restaurant(1L, name, address);
+
+        restrantService.addRestaurant(restaurant);
+
+        URI location = new URI("/restaurants/"+restaurant.getId());
+
+        return ResponseEntity.created(location).body("{}");
     }
 
 }
