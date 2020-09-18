@@ -1,0 +1,4 @@
+rootProject.name = 'eatgo'
+
+/* eatgo-api에 src / build.gradle 파일을 옮긴 후, include를 해준다. */
+include 'eatgo-api'
