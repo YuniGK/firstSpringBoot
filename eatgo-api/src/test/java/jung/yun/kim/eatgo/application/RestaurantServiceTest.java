@@ -10,11 +10,12 @@ import org.mockito.MockitoAnnotations;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.mockito.BDDMockito.given;
+import static org.hamcrest.CoreMatchers.*;
+import static org.mockito.ArgumentMatchers.*;
+import static org.hamcrest.MatcherAssert.*;
+import static org.mockito.BDDMockito.*;
 
-class RespositoryServiceTest {
+class RestaurantServiceTest {
 
     private RestaurantService restaurantService;
 
@@ -33,6 +34,7 @@ class RespositoryServiceTest {
 
         given(restaurantRepository.findAll()).willReturn(restaurants);
         given(restaurantRepository.findById(1005L)).willReturn(restaurant);
+
     }
 
     private void mockMenuItemRespository() {
@@ -77,6 +79,16 @@ class RespositoryServiceTest {
 
         assertThat(restaurant.getId(), is(1005L));
         assertThat(menuItem.getMenuItem(), is("Kimchi"));
+    }
+
+    @Test
+    public void addRestaurant(){
+        Restaurant restaurant = restaurantService.addRestaurant(new Restaurant("BeRyong", "Busan"));
+        Restaurant saved = new Restaurant(1L, "BeRyong", "Busan");
+
+        given(restaurantRepository.save(any())).willReturn(saved);
+
+        assertThat(restaurant.getId(), is(1L));
     }
 
 }

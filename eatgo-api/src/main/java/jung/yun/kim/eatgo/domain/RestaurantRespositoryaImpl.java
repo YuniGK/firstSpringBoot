@@ -31,4 +31,13 @@ public class RestaurantRespositoryaImpl implements RestaurantRespository {
                 //.get();
                 .orElse(null);
     }
+
+    @Override
+    public Restaurant save(Restaurant restaurant) {
+        restaurant.setId(1L);
+
+        restaurants.add(restaurant);
+
+        return restaurant;
+    }
 }

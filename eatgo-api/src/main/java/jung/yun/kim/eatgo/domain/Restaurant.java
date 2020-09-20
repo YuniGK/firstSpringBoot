@@ -14,8 +14,14 @@ public class Restaurant {
         return menuItems;
     }
 
+
     //생성자
     public Restaurant() {
+    }
+
+    public Restaurant(String name, String address) {
+        this.name = name;
+        this.address = address;
     }
 
     public Restaurant(Long id, String name, String address) {
@@ -35,6 +41,11 @@ public class Restaurant {
         return address;
     }
     private List<MenuItem> menuItems = new ArrayList<MenuItem>();
+
+    //setter
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     //메소드
     public String getInformation() {
